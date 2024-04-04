@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 30px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+legend {
+  font-size: larger;
+}
+
+li,
+form {
+  line-height: 2;
+}
