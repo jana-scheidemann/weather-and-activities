@@ -12,3 +12,7 @@ li,
 form {
   line-height: 2;
 }
+
+fieldset {
+  width: fit-content;
+}

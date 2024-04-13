@@ -6,7 +6,7 @@ import { uid } from "uid";
 import useLocalStorageState from "use-local-storage-state";
 
 export default function App() {
-  const [activity, setActivity] = useLocalStorageState("activity", {
+  const [activities, setActivities] = useLocalStorageState("activities", {
     defaultValue: initialActivities,
   });
 
@@ -14,13 +14,19 @@ export default function App() {
 
   useEffect(() => {
     async function startFetching() {
-      const response = await fetch(
-        "https://example-apis.vercel.app/api/weather"
-      );
-      const isWeather = await response.json();
-
-      setIsWeather(isWeather);
+      try {
+        const response = await fetch(
+          "https://example-apis.vercel.app/api/weather"
+        );
+        const isWeather = await response.json();
+        console.log("isWeather", isWeather);
+        setIsWeather(isWeather);
+      } catch (error) {
+        console.error("Error: ", error);
+      }
     }
+    startFetching();
+
     const interval = setInterval(() => {
       startFetching();
     }, 5000);
@@ -34,19 +40,19 @@ export default function App() {
     return null;
   }
 
-  const filteredActivities = activity.filter(
+  const filteredActivities = activities.filter(
     (activity) => activity.isForGoodWeather === isWeather.isGoodWeather
   );
 
   function handleAddActivity(name, isForGoodWeather) {
-    setActivity([
-      ...activity,
+    setActivities([
+      ...activities,
       { id: uid(), name: name, isForGoodWeather: isForGoodWeather },
     ]);
   }
 
   function handleDeleteActivity(id) {
-    setActivity(activity.filter((singleActivity) => id !== singleActivity.id));
+    setActivities(activities.filter((activity) => id !== activity.id));
   }
 
   return (
@@ -56,7 +62,7 @@ export default function App() {
         {isWeather.condition} {isWeather.temperature} °C
       </h2>
       <List
-        activity={filteredActivities}
+        activities={filteredActivities}
         isWeather={isWeather}
         onDeleteActivity={handleDeleteActivity}
       />
