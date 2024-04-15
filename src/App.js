@@ -3,10 +3,10 @@ import List from "./components/List.js";
 import { initialActivities } from "./components/data.js";
 import { useEffect, useState } from "react";
 import { uid } from "uid";
-import useLocalStorageState from "use-local-storage-state";
+import useLocalStorage from "use-local-storage";
 
 export default function App() {
-  const [activities, setActivities] = useLocalStorageState("activities", {
+  const [activities, setActivities] = useLocalStorage("activities", {
     defaultValue: initialActivities,
   });
 
