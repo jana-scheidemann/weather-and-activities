@@ -3,12 +3,11 @@ import List from "./components/List.js";
 import { initialActivities } from "./components/data.js";
 import { useEffect, useState } from "react";
 import { uid } from "uid";
-import useLocalStorage from "use-local-storage";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App() {
-  const [activities, setActivities] = useLocalStorage("activities", {
-    defaultValue: initialActivities,
-  });
+  const [activities, setActivities] = useLocalStorageState("activities");
+  setActivities(initialActivities);
 
   const [isWeather, setIsWeather] = useState(undefined);
 
@@ -19,7 +18,6 @@ export default function App() {
           "https://example-apis.vercel.app/api/weather"
         );
         const isWeather = await response.json();
-        console.log("isWeather", isWeather);
         setIsWeather(isWeather);
       } catch (error) {
         console.error("Error: ", error);
